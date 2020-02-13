@@ -1,0 +1,88 @@
+1) Gaussian Elimination
+
+// Gaussian elimination for 3 X 3
+function [x]=gauss_elim(A, b)
+    a1=3; // Dimensions of A (no of rows)
+    a2=3; // Dimensions of A (no of columns)
+    b1=3; // Dimensions of B (no of rows)
+    b2=1; // Dimensions of B (no of columns)
+    for k=1:a1-1
+        for i=k+1:a1
+            m=A(i,k)/A(k,k);  // A(k,k) is the pivot // Identifying the multiplier
+            for j=k+1:a1
+                A(i,j)=A(i,j)-m*A(k,j);  // Elimination
+            end
+            b(i)=b(i)-m*b(k)  // Elimination in constant matrix as well
+        end
+    end
+    
+    x(a1)=b(a1)/A(a1,a1);  // obtain value of last isolated variable
+    for i=a1-1:-1:1  // perform backward elimination
+        temp=0;
+        for j=i+1:a1
+            temp=temp+A(i,j)*x(j);
+        end
+        x(i)=(b(i)-temp)/A(i,i);
+    end
+endfunction
+A=input("Enter A (3 X 3):")
+b=input("Enter b (3 X 1):")
+disp(gauss_elim(A,b))
+
+
+
+
+
+2) LU Decomposition
+
+// LU decomposition
+function lu_decomp(A)
+	a1=3; // no. of rows
+    a2=3; // no.of columns
+	U=A;  // upper triangular matrix
+	L=eye(3,3);  // 3 X 3 identity matrix
+	for i=1:(a1-1)
+    		x=det(U(i,i));
+    		for j=i+1:a2
+        		n=det(U(j,i))
+        		y=n/x;  // multiplier
+        		L(j,i)=y;  // Storing the multiplier in Lower Triangular matrix
+        		U(j,:)=U(j,:)-U(i,:)/(x/n);  // Gaussian elimination
+    		end
+	end
+	disp(A,'A=');
+	disp(L,'L=');
+	disp(U,'U=');
+endfunction
+A=input('Enter a 3x3 matrix: ');
+lu_decomp(A);
+
+
+
+3) Inverse by Gauss Jordan method
+
+// Inverse by Gauss-Jordan method
+function [A1]=gauss_jordan_inv(A)
+    a1=3; // no of rows
+    a2=3; // no of columns
+    b=eye(a1,a2); // 3x3 identity matrix
+    C=[A b];  //Augmented matrix
+    [m,n]=size(C)
+    for k=1:1:m
+        rangee=[1:1:k-1,k+1:1:m]
+        for i=rangee
+            mul=C(i,k)/C(k,k)
+            for j=k+1:n
+                C(i,j)=C(i,j)-mul*C(k,j)  // elimination
+             end
+         end
+    end
+    A1=zeros(a1,a2)  // A matrix filled with zeroes
+    for i=1:1:a1
+        for j=1:1:a2
+            A1(i,j)=C(i,m+j)/C(i,i)  // Inverse
+        end
+    end
+endfunction
+A=input("Enter 3x3 coeffcient matrix: ");
+disp(gauss_jordan_inv(A),'Inverse matrix: ');
