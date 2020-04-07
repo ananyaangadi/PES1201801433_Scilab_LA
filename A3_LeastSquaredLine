@@ -1,0 +1,35 @@
+// Least Squares Line
+// Given: 3 equations in 2 variables
+
+//taking input 
+disp('Enter the matrix A');
+a11=1;
+a12=input("Enter t1: ");
+a21=1;
+a22=input("Enter t2: ");
+a31=1;
+a32=input("Enter t3: ");
+
+
+A=[a11,a12;a21,a22;a31,a32];
+
+disp(A,'A=');
+
+disp('Enter the matrix B');
+b1=input("Enter b1: ");
+b2=input("Enter b2: ");
+b3=input("Enter b3: ");
+
+b=[b1;b2;b3];  //Constant matrix
+
+disp(b,'b=');
+
+x=(A'*A)\(A'*b);   // finding x cap
+
+disp(x,'x=');
+C=x(1,1);
+D=x(2,1);
+
+disp(C,'C=');
+disp(D,'D=');
+disp('Best fit line is b=C+Dt');
